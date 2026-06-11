@@ -26,6 +26,14 @@ A ideia surgiu da necessidade de centralizar o processo seletivo: empresas cadas
 - JWT para autenticação
 - bcrypt para hash de senhas
 
+- ## 🔒 Segurança
+- Senhas criptografadas com **bcrypt**
+- Autenticação via **JWT** com segredo via variável de ambiente
+- **Rate limiting** nas rotas de autenticação (10 req / 15min por IP)
+- Headers de segurança HTTP com **Helmet**
+- CORS restritivo — apenas origens autorizadas
+- Variáveis sensíveis isoladas em `.env` (nunca versionadas)
+
 ## 📁 Estrutura
 
 ```
