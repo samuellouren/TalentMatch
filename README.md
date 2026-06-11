@@ -68,6 +68,8 @@ npm run dev
 
 O frontend roda em `http://localhost:5173` e o backend em `http://localhost:3000`.
 
+demo: "https://talent-match-two.vercel.app"
+
 ## 👨‍💻 Autor
 
 Samuel Louren — [GitHub](https://github.com/samuellouren) · [LinkedIn](https://linkedin.com/in/samuellouren)
