@@ -1,6 +1,12 @@
 import jwt from "jsonwebtoken"
 
-const SECRET = process.env.JWT_SECRET || "senhasecreta123"
+// Segredo usado para verificar tokens JWT (definido no arquivo .env)
+// Sem fallback hardcoded: se faltar, o servidor não sobe — melhor falhar
+// na inicialização do que aceitar tokens assinados com um segredo público
+const SECRET = process.env.JWT_SECRET
+if (!SECRET) {
+  throw new Error("JWT_SECRET não definido. Configure o arquivo .env (veja .env.example).")
+}
 
 function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization

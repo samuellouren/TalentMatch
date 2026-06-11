@@ -2,9 +2,13 @@ import bcrypt from "bcrypt" // Para criptografar senhas
 import jwt from "jsonwebtoken" // Para criar tokens de autenticação
 import User from "../models/User.js" // Modelo de usuário (acessa banco)
 
-// Chave secreta para assinar tokens JWT
-// Em produção, deve estar em variável de ambiente (.env)
-const SECRET = process.env.JWT_SECRET || "senhasecreta123"
+// Chave secreta para assinar tokens JWT (definida no arquivo .env)
+// Sem fallback hardcoded: se faltar, o servidor não sobe — melhor falhar
+// na inicialização do que assinar tokens com um segredo público
+const SECRET = process.env.JWT_SECRET
+if (!SECRET) {
+  throw new Error("JWT_SECRET não definido. Configure o arquivo .env (veja .env.example).")
+}
 
 // ===== CONTROLLER =====
 // Controlador gerencia a lógica de negócio da aplicação

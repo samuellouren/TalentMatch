@@ -1,0 +1,8 @@
+# Dependências
+node_modules/
+
+# Variáveis de ambiente (contém segredos)
+.env
+
+# Logs
+*.log
