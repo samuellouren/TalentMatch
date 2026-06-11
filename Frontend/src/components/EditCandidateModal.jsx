@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import axios from "axios"
+import api from "../services/api"
 import "./Modal.css"
 
 export default function EditCandidateModal({ candidate, onClose, onSuccess }) {
@@ -38,7 +38,7 @@ export default function EditCandidateModal({ candidate, onClose, onSuccess }) {
           formData.experience !== candidate.experience ||
           formData.education !== candidate.education
         ) {
-          await axios.put(`http://localhost:3333/api/candidates/${candidate.id}`, {
+          await api.put(`/api/candidates/${candidate.id}`, {
             name: formData.name,
             email: formData.email,
             phone: formData.phone,
@@ -50,12 +50,12 @@ export default function EditCandidateModal({ candidate, onClose, onSuccess }) {
         }
 
         // Depois atualizar status com validação
-        await axios.put(`http://localhost:3333/api/candidates/${candidate.id}/status`, {
+        await api.put(`/api/candidates/${candidate.id}/status`, {
           status: formData.status,
         })
       } else {
         // Se status não mudou, atualizar normalmente
-        await axios.put(`http://localhost:3333/api/candidates/${candidate.id}`, formData)
+        await api.put(`/api/candidates/${candidate.id}`, formData)
       }
 
       alert("Candidato atualizado com sucesso!")

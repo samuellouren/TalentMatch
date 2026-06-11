@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useAuth } from "../context/AuthContext"
 import Header from "../components/Header"
-import axios from "axios"
+import api from "../services/api"
 import "./Settings.css"
 
 export default function Settings() {
@@ -37,7 +37,7 @@ export default function Settings() {
     console.log(" Iniciando atualização de perfil:", profileData)
 
     try {
-      const response = await axios.put("/api/auth/profile", profileData)
+      const response = await api.put("/api/auth/profile", profileData)
 
       console.log(" Resposta do servidor:", response.data)
 
@@ -75,7 +75,7 @@ export default function Settings() {
     console.log(" Iniciando alteração de senha")
 
     try {
-      const response = await axios.put("/api/auth/password", {
+      const response = await api.put("/api/auth/password", {
         currentPassword: passwordData.currentPassword,
         newPassword: passwordData.newPassword,
       })

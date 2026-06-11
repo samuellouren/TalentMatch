@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
+import api from "../services/api"
 import Header from "../components/Header"
 import "./AddCandidate.css"
 
@@ -26,8 +26,8 @@ export default function AddCandidate() {
   const [jobApplications, setJobApplications] = useState([])
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3333/api/jobs")
+    api
+      .get("/api/jobs")
       .then((response) => setJobs(response.data))
       .catch((error) => console.error("Erro ao buscar vagas:", error))
   }, [])
@@ -137,11 +137,11 @@ export default function AddCandidate() {
         skills: uniqueSkills.join(", "),
       }
 
-      const response = await axios.post("http://localhost:3333/api/candidates", candidateData)
+      const response = await api.post("/api/candidates", candidateData)
       const candidateId = response.data.id
 
       for (const app of jobApplications) {
-        await axios.post("http://localhost:3333/api/applications", {
+        await api.post("/api/applications", {
           candidate_id: candidateId,
           job_id: app.jobId,
           compatibility: app.compatibility,

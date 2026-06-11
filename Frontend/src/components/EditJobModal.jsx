@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import axios from "axios"
+import api from "../services/api"
 import "./Modal.css"
 
 export default function EditJobModal({ job, onClose, onSuccess }) {
@@ -27,7 +27,7 @@ export default function EditJobModal({ job, onClose, onSuccess }) {
     setLoading(true)
 
     try {
-      await axios.put(`http://localhost:3333/api/jobs/${job.id}`, formData)
+      await api.put(`/api/jobs/${job.id}`, formData)
       alert("Vaga atualizada com sucesso!")
       onSuccess()
     } catch (error) {

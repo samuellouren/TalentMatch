@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
+import api from "../services/api"
 import "./Candidates.css"
 import Header from "../components/Header"
 import CandidateDetailsModal from "../components/CandidateDetailsModal"
@@ -50,7 +50,7 @@ export default function Candidates() {
 
   const fetchCandidates = async () => {
     try {
-      const response = await axios.get("http://localhost:3333/api/candidates")
+      const response = await api.get("/api/candidates")
       console.log(" Candidatos carregados:", response.data)
       setCandidates(response.data)
       setFilteredCandidates(response.data)
@@ -62,7 +62,7 @@ export default function Candidates() {
 
   const fetchJobs = async () => {
     try {
-      const response = await axios.get("http://localhost:3333/api/jobs")
+      const response = await api.get("/api/jobs")
       console.log(" Vagas carregadas:", response.data)
       setJobs(response.data)
     } catch (error) {
@@ -76,7 +76,7 @@ export default function Candidates() {
 
   const handleViewDetails = async (candidate) => {
     try {
-      const response = await axios.get(`http://localhost:3333/api/candidates/${candidate.id}`)
+      const response = await api.get(`/api/candidates/${candidate.id}`)
       setSelectedCandidate(response.data)
       setShowDetailsModal(true)
     } catch (error) {
@@ -96,7 +96,7 @@ export default function Candidates() {
     }
 
     try {
-      await axios.delete(`http://localhost:3333/api/candidates/${candidate.id}`)
+      await api.delete(`/api/candidates/${candidate.id}`)
       alert("Candidato deletado com sucesso!")
       fetchCandidates()
     } catch (error) {

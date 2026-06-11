@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
+import api from "../services/api"
 import Header from "../components/Header"
 import JobDetailsModal from "../components/JobDetailsModal"
 import EditJobModal from "../components/EditJobModal"
@@ -34,7 +34,7 @@ export default function Jobs() {
 
   const fetchJobs = async () => {
     try {
-      const response = await axios.get("http://localhost:3333/api/jobs")
+      const response = await api.get("/api/jobs")
       console.log(" Vagas carregadas:", response.data)
       setJobs(response.data)
       setFilteredJobs(response.data)
@@ -50,7 +50,7 @@ export default function Jobs() {
 
   const handleViewDetails = async (job) => {
     try {
-      const response = await axios.get(`http://localhost:3333/api/jobs/${job.id}`)
+      const response = await api.get(`/api/jobs/${job.id}`)
       setSelectedJob(response.data)
       setShowDetailsModal(true)
     } catch (error) {
@@ -61,7 +61,7 @@ export default function Jobs() {
 
   const handleViewCandidates = async (job) => {
     try {
-      const response = await axios.get(`http://localhost:3333/api/applications/job/${job.id}`)
+      const response = await api.get(`/api/applications/job/${job.id}`)
       console.log(" Candidatos da vaga:", response.data)
       setJobCandidates(response.data)
       setSelectedJob(job)
@@ -83,7 +83,7 @@ export default function Jobs() {
     }
 
     try {
-      await axios.delete(`http://localhost:3333/api/jobs/${job.id}`)
+      await api.delete(`/api/jobs/${job.id}`)
       alert("Vaga deletada com sucesso!")
       fetchJobs()
     } catch (error) {

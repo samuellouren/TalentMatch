@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
+import api from "../services/api"
 import Header from "../components/Header"
 import "./AddJob.css"
 
@@ -62,7 +62,7 @@ export default function AddJob() {
     setLoading(true)
 
     try {
-      await axios.post("http://localhost:3333/api/jobs", formData)
+      await api.post("/api/jobs", formData)
       alert("Vaga adicionada com sucesso!")
       navigate("/jobs")
     } catch (error) {

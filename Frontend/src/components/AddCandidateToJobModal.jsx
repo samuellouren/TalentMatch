@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import axios from "axios"
+import api from "../services/api"
 import "./Modal.css"
 
 export default function AddCandidateToJobModal({ job, onClose, onSuccess }) {
@@ -16,7 +16,7 @@ export default function AddCandidateToJobModal({ job, onClose, onSuccess }) {
 
   const fetchCandidates = async () => {
     try {
-      const response = await axios.get("http://localhost:3333/api/candidates")
+      const response = await api.get("/api/candidates")
       setCandidates(response.data)
     } catch (error) {
       console.error("Erro ao buscar candidatos:", error)
@@ -35,7 +35,7 @@ export default function AddCandidateToJobModal({ job, onClose, onSuccess }) {
     setLoading(true)
 
     try {
-      await axios.post("http://localhost:3333/api/applications", {
+      await api.post("/api/applications", {
         candidate_id: selectedCandidate,
         job_id: job.id,
       })

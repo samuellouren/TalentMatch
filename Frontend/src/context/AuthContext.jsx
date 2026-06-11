@@ -1,7 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect } from "react"
-import axios from "axios"
+import api from "../services/api"
 
 const AuthContext = createContext()
 
@@ -21,13 +21,13 @@ export function AuthProvider({ children }) {
     if (token && userData) {
       setUser(JSON.parse(userData))
       setIsAuthenticated(true)
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`
     }
     setLoading(false)
   }, [])
 
   useEffect(() => {
-    const requestInterceptor = axios.interceptors.request.use(
+    const requestInterceptor = api.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem("token")
         if (token) {
@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
       },
     )
 
-    const responseInterceptor = axios.interceptors.response.use(
+    const responseInterceptor = api.interceptors.response.use(
       (response) => {
         console.log("Resposta:", response.status, response.config.url)
         return response
@@ -54,19 +54,19 @@ export function AuthProvider({ children }) {
     )
 
     return () => {
-      axios.interceptors.request.eject(requestInterceptor)
-      axios.interceptors.response.eject(responseInterceptor)
+      api.interceptors.request.eject(requestInterceptor)
+      api.interceptors.response.eject(responseInterceptor)
     }
   }, [])
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post("/api/auth/login", { email, password })
+      const response = await api.post("/api/auth/login", { email, password })
       const { token, user: userData } = response.data
 
       localStorage.setItem("token", token)
       localStorage.setItem("user", JSON.stringify(userData))
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`
 
       setUser(userData)
       setIsAuthenticated(true)
@@ -81,7 +81,7 @@ export function AuthProvider({ children }) {
 
   const register = async (userData) => {
     try {
-      const response = await axios.post("/api/auth/register", userData)
+      const response = await api.post("/api/auth/register", userData)
       return { success: true, data: response.data }
     } catch (error) {
       return {
@@ -102,7 +102,7 @@ export function AuthProvider({ children }) {
   const logout = () => {
     localStorage.removeItem("token")
     localStorage.removeItem("user")
-    delete axios.defaults.headers.common["Authorization"]
+    delete api.defaults.headers.common["Authorization"]
     setUser(null)
     setIsAuthenticated(false)
   }
